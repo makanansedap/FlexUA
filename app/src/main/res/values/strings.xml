@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Urine Analyzer</string>
+    <string name="start">Start Analysis</string>
+    <string name="check">Check Connection</string>
+</resources>

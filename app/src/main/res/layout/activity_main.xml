@@ -6,25 +6,31 @@
     android:layout_height="match_parent"
     android:layout_margin="15dp"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Urine Analyzer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/app_name"
+        android:textSize="30sp"
+        android:layout_gravity="center" />
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="80dp"/>
     <Button
         android:id="@+id/startBtn"
         android:text="@string/start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/checkBtn"
-        android:text="@string/check"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="10dp"/>
+    <TextView
+        android:id="@+id/statusTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/check_ok"
+        android:layout_gravity="center" />
 
 </LinearLayout>

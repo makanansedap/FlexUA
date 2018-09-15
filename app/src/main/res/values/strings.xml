@@ -3,4 +3,5 @@
     <string name="start">Start Analysis</string>
     <string name="check">Check Connection</string>
     <string name="check_ok">Connection: <b><font color='#228B22' >OK</font></b></string>
+    <string name="check_ng">Connection: <b><font color='#B22222' >Failed</font></b></string>
 </resources>

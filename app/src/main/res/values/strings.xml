@@ -1,7 +1,17 @@
 <resources>
     <string name="app_name">Urine Analyzer</string>
-    <string name="start">Start Analysis</string>
+    <string name="start">Authenticate</string>
+    <string name="starting">Authenticating…</string>
+    <string name="retry">Retry</string>
     <string name="check">Check Connection</string>
     <string name="check_ok">Connection: <b><font color='#228B22' >OK</font></b></string>
     <string name="check_ng">Connection: <b><font color='#B22222' >Failed</font></b></string>
+
+    <string name="dev_status">Device Status</string>
+    <string name="dev_operation">Device Operation</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="run_test">Run Test</string>
+    <string name="btn_info_on_off">Click the button above to turn the machine on/off</string>
+    <string name="btn_info_run">Click the button above to run the operation</string>
 </resources>

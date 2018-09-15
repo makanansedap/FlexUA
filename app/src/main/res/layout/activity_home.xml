@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dev_operation"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+    <Button
+        android:id="@+id/onOffBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/off"
+        android:textSize="48sp"
+        android:background="@android:color/transparent"
+        android:drawableBottom="@android:drawable/button_onoff_indicator_off" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_info_on_off"
+        android:textAlignment="center"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dev_operation"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+    <Button
+        android:id="@+id/runBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/run_test"
+        android:textSize="24sp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@android:drawable/ic_media_play" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_info_run"
+        android:textAlignment="center"/>
+</LinearLayout>

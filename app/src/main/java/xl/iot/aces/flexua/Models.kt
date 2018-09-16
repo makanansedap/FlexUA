@@ -156,7 +156,7 @@ interface ExecuteActionService {
             @Body body: ExecuteActionBody
     ) : Observable<ExecuteActionResponse>
 
-    companion object Factory{
+    companion object Factory {
         fun create() : ExecuteActionService {
             val retrofit = Retrofit.Builder()
                     .client(UnsafeOkHttpClient.getUnsafeOkHttpClient().build())
@@ -166,6 +166,47 @@ interface ExecuteActionService {
                     .baseUrl(BASE_URL)
                     .build()!!
             return retrofit.create(ExecuteActionService::class.java)
+        }
+    }
+}
+
+data class IOTDataTestResponseArray(
+        val stateName: String,
+        val time_s: String,
+        val timestamp_s: String,
+        val benedict: Double,
+        val biuret: Double,
+        val dehydration: Double
+)
+
+data class IOTDataTestResponse(
+        val device: List<IOTDataTestResponseArray>
+)
+
+interface IOTDataService {
+    @GET("/api/datamgt/v1/user/devicehistory")
+    @Headers("Content-Type: application/json;charset=utf-8")
+    fun data(
+            @Header("Authorization") authorization: String,
+            @Header("X-IoT-JWT") xIotJwt: String,
+            @Query("eventName") eventName: String,
+            @Query("deviceIds") deviceIds: String,
+            @Query("startDate") startDate: String,
+            @Query("noOfEvents") noOfEvents: String,
+            @Query("zoneId") zoneId: String,
+            @Query("eventParams") eventParams: String
+    ) : Observable<IOTDataTestResponse>
+
+    companion object Factory{
+        fun create() : IOTDataService {
+            val retrofit = Retrofit.Builder()
+                    .client(UnsafeOkHttpClient.getUnsafeOkHttpClient().build())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .baseUrl(BASE_URL)
+                    .build()!!
+            return retrofit.create(IOTDataService::class.java)
         }
     }
 }

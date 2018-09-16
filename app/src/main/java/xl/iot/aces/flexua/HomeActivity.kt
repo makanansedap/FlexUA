@@ -3,12 +3,13 @@ package xl.iot.aces.flexua
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.Entry
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
+import java.text.SimpleDateFormat
+import java.util.*
 import android.R.attr.entries
 import android.graphics.Color
 import com.github.mikephil.charting.components.XAxis
@@ -49,17 +50,18 @@ class HomeActivity : AppCompatActivity() {
         val entry1 = ArrayList<BarEntry>()
         val entry2 = ArrayList<BarEntry>()
         val entry3 = ArrayList<BarEntry>()
-        entry1.add(BarEntry(0f, 40f))
-        entry2.add(BarEntry(1f, 80f))
-        entry3.add(BarEntry(2f, 60f))
-        val set1 = BarDataSet(entry1, "SET 1")
-        set1.setColors(Color.RED)
-        val set2 = BarDataSet(entry2, "SET 2")
-        set2.setColors(Color.GREEN)
-        val set3 = BarDataSet(entry3, "SET 3")
-        set3.setColors(Color.BLUE)
+//        entry1.add(BarEntry(0f, 40f))
+//        entry2.add(BarEntry(1f, 80f))
+//        entry3.add(BarEntry(2f, 60f))
+        val set1 = BarDataSet(entry1, "Biuret")
+        set1.setColors(Color.BLUE)
+        val set2 = BarDataSet(entry2, "Benedict")
+        set2.setColors(Color.RED)
+        val set3 = BarDataSet(entry3, "Dehydration")
+        set3.setColors(Color.YELLOW)
         val data = BarData(set1, set2, set3)
         barChart.data = data
+        barChart.description.isEnabled = false
         barChart.setFitBars(true)
         barChart.invalidate()
 
@@ -100,6 +102,26 @@ class HomeActivity : AppCompatActivity() {
                     .subscribe({
                         Toast.makeText(this@HomeActivity, "Running the test...", Toast.LENGTH_SHORT).show()
                         runBtn.isEnabled = false
+                        var testReturned = false
+                        val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+                        Log.d("TIMESTAMP", timestamp)
+                        Thread {
+                            while (!testReturned) {
+                                val dataService = IOTDataService.create()
+                                val dataServiceResponse = dataService.data(pref.getString("AUTHORIZATION", ""), pref.getString("X_IOT_JWT", ""), "submitResult", DEVICE_ID.toString(), timestamp, "1", "Asia/Jakarta", "biuret,benedict,dehydration")
+                                dataServiceResponse.observeOn(AndroidSchedulers.mainThread())
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe({
+                                            testReturned = true
+                                            Log.d("TEST RESULT", it.toString())
+                                            entry1.add(BarEntry(0f, it.device[0].biuret.toFloat()))
+                                            entry2.add(BarEntry(1f, it.device[0].benedict.toFloat()))
+                                            entry3.add(BarEntry(2f, it.device[0].dehydration.toFloat()))
+                                            barChart.invalidate()
+                                        }, { it.printStackTrace() })
+                                Thread.sleep(15000)
+                            }
+                        }.start()
                     }, { Toast.makeText(this@HomeActivity, "Unable to run the test on the device", Toast.LENGTH_SHORT).show(); it.printStackTrace() })
         }
     }

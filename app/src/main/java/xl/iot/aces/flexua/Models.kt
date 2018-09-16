@@ -66,14 +66,14 @@ data class APIAuthorizationResponse(
         val token_type: String,
         val expires_in: Int
 )
-interface APIAuthorzationService {
+interface APIAuthorizationService {
     @GET("/api/applicationmgt/authenticate")
     fun request(
             @Header("X-Secret") xSecret: String
     ) : Observable<APIAuthorizationResponse>
 
     companion object Factory {
-        fun create(): APIAuthorzationService {
+        fun create(): APIAuthorizationService {
             val retrofit = Retrofit.Builder()
                     .client(UnsafeOkHttpClient.getUnsafeOkHttpClient().build())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -81,7 +81,7 @@ interface APIAuthorzationService {
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .baseUrl(BASE_URL)
                     .build()!!
-            return retrofit.create(APIAuthorzationService::class.java)
+            return retrofit.create(APIAuthorizationService::class.java)
         }
     }
 }

@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = View.VISIBLE
             startBtn.isEnabled = false
             startBtn.setText(R.string.starting)
-            val apiService = APIAuthorzationService.create()
+            val apiService = APIAuthorizationService.create()
             var apiServiceResponse = apiService.request(X_SECRET)
             val errorBehaviour = { e : Throwable ->
                 e.printStackTrace()

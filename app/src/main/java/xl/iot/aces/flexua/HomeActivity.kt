@@ -4,9 +4,21 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.Entry
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
+import android.R.attr.entries
+import android.graphics.Color
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+
+
+
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +27,41 @@ class HomeActivity : AppCompatActivity() {
 
         var onOffState = false
         runBtn.isEnabled = onOffState
+
+
+
+        val yAxis = barChart.axisLeft
+        yAxis.setDrawLabels(false)
+        yAxis.setDrawAxisLine(false)
+        yAxis.setDrawGridLines(false)
+        yAxis.setDrawZeroLine(true)
+        yAxis.labelCount = 20
+        yAxis.setLabelCount(3, true)
+
+        val xAxis = barChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.textSize = 10f
+        xAxis.textColor = Color.RED
+        xAxis.granularity = 1f
+        xAxis.setDrawAxisLine(true)
+        xAxis.setDrawGridLines(false)
+
+        val entry1 = ArrayList<BarEntry>()
+        val entry2 = ArrayList<BarEntry>()
+        val entry3 = ArrayList<BarEntry>()
+        entry1.add(BarEntry(0f, 40f))
+        entry2.add(BarEntry(1f, 80f))
+        entry3.add(BarEntry(2f, 60f))
+        val set1 = BarDataSet(entry1, "SET 1")
+        set1.setColors(Color.RED)
+        val set2 = BarDataSet(entry2, "SET 2")
+        set2.setColors(Color.GREEN)
+        val set3 = BarDataSet(entry3, "SET 3")
+        set3.setColors(Color.BLUE)
+        val data = BarData(set1, set2, set3)
+        barChart.data = data
+        barChart.setFitBars(true)
+        barChart.invalidate()
 
         onOffBtn.setOnClickListener {
             val changeState = { aBool : Boolean ->

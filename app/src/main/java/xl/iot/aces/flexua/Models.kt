@@ -15,11 +15,12 @@ import javax.net.ssl.*
 val BASE_URL      = "https://flexiot.xl.co.id/"
 val SERVER_URL    = "http://52.221.141.22:8080"
 val EVENT_URL     = "http://52.221.141.22:8080/api/pcs/Generic_brand_745GENERIC_DEVICEv3"
-val DEVICE_ID     = "1268068829839903"
 val X_SECRET      = "YUhGREQwZjNBbEdOUmZNSmNraFZ0dzJLVUlVYTpOakFyYzFBOEFNSzBoQzZTUnpxRDFBM1k1cVVh"
 val USERNAME      = "ellianto@student.umn.ac.id"
 val PASSWORD      = "MaRooN55"
 val CONTENT_TYPE  = "application/json"
+val DEVICE_ID     = 12627
+val SERIAL        = "4407062520211518"
 
 
 class UnsafeOkHttpClient {
@@ -136,17 +137,35 @@ data class ExecuteActionResponse(
 
 data class ExecuteActionBody(
         val operation: String,
-        val deviceId: String,
+        val deviceId: Int,
         val actionName: String,
         val userId: Int,
         val actionParameters: Any
 )
 
+data class ActionParameter(
+        val mac: String
+)
+
 interface ExecuteActionService {
     @POST("/api/userdevicecontrol/v1/devices/executeaction")
+    @Headers("Content-Type: application/json;charset=utf-8")
     fun execute(
             @Header("Authorization") authorization: String,
             @Header("X-IoT-JWT") xIotJwt: String,
-            @Query("body") body: Any
+            @Body body: ExecuteActionBody
     ) : Observable<ExecuteActionResponse>
+
+    companion object Factory{
+        fun create() : ExecuteActionService {
+            val retrofit = Retrofit.Builder()
+                    .client(UnsafeOkHttpClient.getUnsafeOkHttpClient().build())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .baseUrl(BASE_URL)
+                    .build()!!
+            return retrofit.create(ExecuteActionService::class.java)
+        }
+    }
 }
